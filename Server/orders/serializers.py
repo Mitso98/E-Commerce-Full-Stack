@@ -43,7 +43,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "id": obj.payment.id,
             "amount": obj.payment.amount,
             "currency": obj.payment.currency,
-            "order_is_paid:": obj.payment.is_paid,
+            "order_is_paid": obj.payment.is_paid,
             "payment_date": obj.payment.payment_date,
         }
 

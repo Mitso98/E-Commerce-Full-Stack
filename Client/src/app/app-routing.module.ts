@@ -7,6 +7,7 @@ import { UserOrdersComponent } from './user-orders/user-orders.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserReviewsComponent } from './user-reviews/user-reviews.component';
 import { UserProductsComponent } from './user-products/user-products.component';
+import { ProductsComponent } from './products/products.component';
 
 const profileChildren: Routes = [
   {
@@ -49,6 +50,10 @@ const routes: Routes = [
     path: 'user',
     component: UserComponent,
     children: userChildren,
+  },
+  {
+    path: 'products',
+    component: ProductsComponent,
   },
 ];
 

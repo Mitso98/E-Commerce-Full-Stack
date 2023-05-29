@@ -32,14 +32,14 @@ export class CartService {
     );
   }
 
-  putCartItem(cartItemId: number, data = {}) {
+  putCartItem(cartItemId: number, data: { quantity: number }) {
     return this.http.put<ICartItem[]>(
       this.apiURL + 'cart-item/' + `${cartItemId}/`,
-      data,
+      data || {},
       httpOptions
     );
   }
-  deleteCartItem(cartItemId: string) {
+  deleteCartItem(cartItemId: number) {
     return this.http.delete<any>(
       this.apiURL + 'cart-item/' + `${cartItemId}/`,
       httpOptions

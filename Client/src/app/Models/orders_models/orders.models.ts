@@ -37,7 +37,7 @@ export interface OrderItem {
 }
 
 export interface OrderResponse {
-  id: string;
+  id: number;
   user: number;
   created_at: string;
   updated_at: string;

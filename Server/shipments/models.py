@@ -27,12 +27,10 @@ class Shipment(models.Model):
     actual_delivery_date = models.DateField(null=True, blank=True, editable=False)
 
     def delete(self, *args, **kwargs):
-        if self.order.full_filled:
-            # Make sure order is shipped as it's full filled
-            if not self.is_delivered:
-                self.is_delivered = True
-                super().save(*args, **kwargs)
-            raise ValidationError("Cannot delete shipment of a full filled order.")
+        if self.order.full_filled or self.order.payment.is_paid:
+            raise ValidationError(
+                "Cannot delete shipment of a paid or full filled order."
+            )
         super().delete(*args, **kwargs)
 
     def save(self, *args, **kwargs):

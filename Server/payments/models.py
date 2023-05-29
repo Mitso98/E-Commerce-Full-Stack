@@ -33,8 +33,9 @@ class Payment(models.Model):
             self.order.save()
 
     def delete(self, *args, **kwargs):
-        if self.order.full_filled:
-            # Do not delete order if paid
-            self.is_paid = True
-            raise ValidationError("Cannot delete shipment of a full filled order.")
+        if self.order.full_filled or self.is_paid:
+            # Do not delete order if paid or fulfilled
+            raise ValidationError(
+                "Cannot delete payment of a paid or full filled order."
+            )
         super().delete(*args, **kwargs)

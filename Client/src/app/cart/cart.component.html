@@ -10,8 +10,43 @@
           <div class="mb-4">
             <h5>Cart Item</h5>
             <p>Product: {{ item.product.name }}</p>
-            <p>Price: {{ item.product.price | currency : "EGP" : true }}</p>
-            <p>Quantity: {{ item.quantity }}</p>
+            <p>Price: {{ item.product.price | currency : "EGP" }}</p>
+            <div class="quantity-container">
+              <p>Quantity:</p>
+              <p
+                *ngIf="errorMessage && item.id == errorMessage.id"
+                class="text-danger mt-2"
+              >
+                {{ errorMessage.error }}
+              </p>
+              <div class="quantity-input">
+                <button
+                  class="btn btn-sm btn-secondary"
+                  (click)="
+                    updateCartItem(item.id, { quantity: item.quantity - 1 })
+                  "
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  [(ngModel)]="item.quantity"
+                  (change)="
+                    updateCartItem(item.id, { quantity: item.quantity })
+                  "
+                  min="1"
+                  (input)="checkQuantityInput(item)"
+                />
+                <button
+                  class="btn btn-sm btn-secondary"
+                  (click)="
+                    updateCartItem(item.id, { quantity: item.quantity + 1 })
+                  "
+                >
+                  +
+                </button>
+              </div>
+            </div>
             <button class="btn btn-danger" (click)="deleteCartItem(item.id)">
               Delete
             </button>
@@ -24,7 +59,12 @@
     <button class="btn btn-primary mt-3" (click)="createOrder()">
       Create Order
     </button>
-    <p *ngIf="errorMessage" class="text-danger mt-2">{{ errorMessage }}</p>
+    <p
+      *ngIf="errorMessage && errorMessage.id === 'createOrder'"
+      class="text-danger mt-2"
+    >
+      {{ errorMessage.error }}
+    </p>
   </div>
 </div>
 

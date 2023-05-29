@@ -4,6 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { UserProfile, newUserProfile } from '../Models/user';
 import { LogoutService } from '../Services/logout.service';
 import { Router } from '@angular/router';
+import { LoginService } from '../Services/login.service';
 
 @Component({
   selector: 'app-header',
@@ -11,11 +12,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+  username: string = 'admin';
+  password: string = 'admin';
   constructor(
     private router: Router,
     private cookieService: CookieService,
     private logoutService: LogoutService,
-    private getLoggedInUserService: GetLoggedInUserService
+    private getLoggedInUserService: GetLoggedInUserService,
+    private loginService: LoginService
   ) {}
 
   loginFlag: boolean = false;
@@ -30,6 +34,18 @@ export class HeaderComponent {
     //   this.loginFlag = flag;
     // });
     // this.getUser();
+
+    // const user = { username: this.username, password: this.password };
+    // this.loginService.login(user).subscribe(({ ok, body }) => {
+    //   if (ok) {
+    //     this.router.navigate(['']);
+    //     this.getLoggedInUserService.getUserProfile();
+    //   } else {
+    //     // TODO: handle wrong login credentials before redirection.
+    //     // TODO: enhance UI
+    //     alert('Invalid username or password');
+    //   }
+    // });
   }
 
   getUser(): void {

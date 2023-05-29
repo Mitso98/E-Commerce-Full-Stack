@@ -114,6 +114,8 @@ def get_user_data(request):
     if user.profile_picture:
         with open(user.profile_picture.path, "rb") as f:
             encoded_picture = base64.b64encode(f.read()).decode("utf-8")
+    else:
+        encoded_picture = None
     user_profile = {
         "id": user.id,
         "email": user.email,

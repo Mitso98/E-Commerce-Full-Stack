@@ -114,7 +114,13 @@ def cart_item_detail(request, id):
             data=request.data,
         )
         if serializer.is_valid():
-            serializer.save()
+            try:
+                serializer.save()
+            except Exception as e:
+                return Response(
+                    {"error": e, "id": str(cart_item.id)},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
     elif request.method == "DELETE":

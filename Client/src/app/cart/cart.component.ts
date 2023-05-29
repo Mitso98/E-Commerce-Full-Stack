@@ -13,7 +13,7 @@ import { ProductsService } from '../Services/productsServices/products.service';
 export class CartComponent implements OnInit {
   cart!: ICart;
   cartItemList!: ICartItem[];
-  errorMessage!: string;
+  errorMessage: any = { error: '', id: null };
   // putResult!: any;
   constructor(
     private cartService: CartService,
@@ -27,16 +27,15 @@ export class CartComponent implements OnInit {
     });
     this.getCart();
     this.getCartItems();
-
-    // // update associated cart item
-    // this.cartService.putCartItem(2).subscribe({
-    //   // specify cart item id and product id
-    //   next: (cart) => {
-    //     console.log('putCartItem>>', cart);
-    //   },
-    // });
   }
-  deleteCartItem(id: string) {
+  checkQuantityInput(item: any) {
+    if (item.quantity === 0) {
+      item.quantity = 1;
+      this.errorMessage.error = 'You can not order 0 or less items';
+      this.errorMessage.id = item.id;
+    }
+  }
+  deleteCartItem(id: number) {
     // delete cart item from cart
     this.cartService.deleteCartItem(id).subscribe({
       // each user has only one cart so we need to provide only cart item id and with session id the cart will be identified
@@ -93,6 +92,25 @@ export class CartComponent implements OnInit {
   //   });
   // }
 
+  updateCartItem(id: number, data: { quantity: number }) {
+    if (data.quantity <= 0) {
+      this.errorMessage.error = 'You can not order 0 or less items';
+      this.errorMessage.id = id;
+    }
+    // update associated cart item
+    this.cartService.putCartItem(id, data).subscribe({
+      // specify cart item id and product id
+      next: (_) => {
+        this.cartService.modifiedCartItems.emit();
+      },
+      error: (error) => {
+        this.cartService.modifiedCartItems.emit();
+        this.errorMessage.error = error.error.error[0];
+        this.errorMessage.id = error.error.id;
+      },
+    });
+  }
+
   createOrder() {
     this.ordersService.createOrder().subscribe({
       next: (response) => {
@@ -101,7 +119,8 @@ export class CartComponent implements OnInit {
         this.productsService.modifiedProductsList.emit();
       },
       error: (error) => {
-        this.errorMessage = error.error[0] as string;
+        this.errorMessage.error = error.error[0];
+        this.errorMessage.error = 'createOrder';
       },
     });
   }

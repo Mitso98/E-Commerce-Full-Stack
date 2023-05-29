@@ -27,7 +27,7 @@
                 </div>
                 <div class="card-price">
                   <p *ngIf="product.price" class="card-text">
-                    Price: {{ product.price | currency : "EGP" : true }}
+                    Price: {{ product.price | currency : "EGP" }}
                   </p>
                   <p *ngIf="product.discount > 0" class="card-text">
                     Discount: {{ product.discount }}%
@@ -38,8 +38,7 @@
                   >
                     Discounted Price:
                     {{
-                      product.price * (1 - product.discount)
-                        | currency : "EGP" : true
+                      product.price * (1 - product.discount) | currency : "EGP"
                     }}
                   </p>
                 </div>

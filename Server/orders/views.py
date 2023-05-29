@@ -24,9 +24,14 @@ def order(request):
 def delete_order(request, pk):
     user_obj = request.user
     order = get_object_or_404(Order, pk=pk, user=user_obj.id)
-    order.shipment.delete()
-    order.payment.delete()
-    order.delete()
+    try:
+        order.payment.delete()
+        order.shipment.delete()
+        order.delete()
+    except Exception as e:
+        return Response(
+            {"error": e, "id": str(order.id)}, status=status.HTTP_400_BAD_REQUEST
+        )
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 

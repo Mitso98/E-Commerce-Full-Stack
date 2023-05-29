@@ -9,8 +9,8 @@ import { OrderResponse } from 'src/app/Models/orders_models/orders.models';
 })
 export class OrdersService {
   private ordersURL = 'http://localhost:8000/orders/';
-  private shipmentURL = 'http://localhost:8000/payments/edit/';
-  private paymentURL = 'http://localhost:8000/shipments/edit/';
+  private paymentURL = 'http://localhost:8000/payments/edit/';
+  private shipmentURL = 'http://localhost:8000/shipments/edit/';
   orderModified = new EventEmitter();
   constructor(private httpClient: HttpClient) {}
 
@@ -19,7 +19,6 @@ export class OrdersService {
   }
 
   createOrder(): Observable<HttpResponse<OrderResponse>> {
- 
     return this.httpClient.post<OrderResponse>(
       this.ordersURL + 'create/',
       {},
@@ -27,7 +26,7 @@ export class OrdersService {
     );
   }
 
-  deleteOrder(id: string) {
+  deleteOrder(id: number) {
     return this.httpClient.delete<OrderResponse>(
       this.ordersURL + 'delete/' + id + '/',
       httpOptions
@@ -38,7 +37,7 @@ export class OrdersService {
     return this.httpClient.put(this.shipmentURL + id + '/', data, httpOptions);
   }
 
-  editPayment(id: number, data = {}) {
+  editPayment(id: number, data: { is_paid: boolean }) {
     return this.httpClient.put(this.paymentURL + id + '/', data, httpOptions);
   }
 }
