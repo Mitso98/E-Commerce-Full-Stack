@@ -1,18 +1,11 @@
 # Full Stack E-Commerce using Django & Angular
 
-## Table of Contents
-
-- [About](#about)
-- [Getting Started](#getting_started)
-- [Usage](#usage)
-- [Contributing](../CONTRIBUTING.md)
-
-## About <a name = "about"></a>
-
-## Getting Started <a name = "getting_started"></a>
-
-- ### Prerequisites
-
-- ### Installing
-
-## Usage <a name = "usage"></a>
+Using Django, Angular, and MySQL, created an ecommerce web app that has:
+Two user profiles:
+ not a dealer.
+ dealer: that has all no dealer privileges plus it can post, update, delete it's own products.
+Solid authorization.
+Relations between models are carefully designed with a concrete logic.
+User model, Cart model, Order model, Shipment model, Reviews model.
+Category model. (Product could have more than one category)
+Simple payment model that can mark a product whether paid or not.
